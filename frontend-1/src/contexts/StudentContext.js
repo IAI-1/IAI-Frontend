@@ -14,7 +14,7 @@ export const studentReducer = (state, action) => {
             }
         case 'EDIT_STUDENT':
             return{
-                students: state.students.map((item)=>{
+                students: state.students.students.map((item)=>{
                     return item.id !== action.payload.id ? item:action.payload
                 })
             }

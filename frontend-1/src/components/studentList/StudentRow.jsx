@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import ModalDetail from "./modalDetail"
 
-const StudentRow = ({ student, index}) => {
+const StudentRow = ({ student, index, setLoading, setError}) => {
     const [detail, setDetail] = useState(false)
     const setDetailModal = (state) => {
         setDetail(state)
@@ -9,7 +9,7 @@ const StudentRow = ({ student, index}) => {
 
     return (
         <>
-            {detail && <ModalDetail setDetail={setDetail} student={student} />}
+            {detail && <ModalDetail setDetail={setDetail} student={student} setLoading={setLoading} setError={setError} />}
             <tr key={student.id} className="">
                 <td className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide">{student.nama}</td>
                 <td className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide">{student.nim}</td>

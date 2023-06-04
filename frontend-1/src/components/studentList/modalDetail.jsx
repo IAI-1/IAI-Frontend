@@ -1,8 +1,10 @@
 import { useState } from "react"
 import ModalDelete from "./modalDelete"
 import { Link } from "react-router-dom"
+import { useHandleStudentUpdate } from "../../hooks/student/useHandleStudentEdit"
+import { useStudentContext } from "../../hooks/student/useStudentContext"
 
-const ModalDetail = ({ student, setDetail }) => {
+const ModalDetail = ({ student, setDetail, setLoading, setError }) => {
     const [editMode, setEditMode] = useState(false)
     const setEditView = (state) => {
         setEditMode(state)
@@ -15,15 +17,20 @@ const ModalDetail = ({ student, setDetail }) => {
 
     const [account, setAccount] = useState(false)
 
-    const [name, setName] = useState(student.nama)
+    const [nama, setNama] = useState(student.nama)
     const [nim, setNIM] = useState(student.nim)
     const [prodi, setProdi] = useState(student.prodi)
     const [fakultas, setFakultas] = useState(student.fakultas)
-    const [gmail, setGmail] = useState("")
+    const [email, setEmail] = useState(student.email)
 
     const handleClose = (state) => {
         setDetail(state)
     }
+
+    const {dispatch} = useStudentContext();
+
+    const updated = {nama, nim, prodi, fakultas, email}
+    const {handleUpdate:handleEdit}=useHandleStudentUpdate({url: 'http://localhost:5000/students/', type: 'EDIT_STUDENT', dispatch, data: student, updatedData: updated, setLoading, setError, closeDetailPopup: handleClose})
 
     return (
         <>
@@ -38,15 +45,15 @@ const ModalDetail = ({ student, setDetail }) => {
                     {editMode ?
                         <>
                             <div className="mb-4">
-                                {name != "" && <label className="">Nama : </label>}
+                                {nama != "" && <label className="">Nama : </label>}
                                 <input
                                     required
                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="name"
+                                    id="nama"
                                     type="text"
                                     placeholder="Nama mahasiswa"
-                                    onChange={(e) => setName(e.target.value)}
-                                    value={name}
+                                    onChange={(e) => setNama(e.target.value)}
+                                    value={nama}
                                 />
                             </div>
                             <div className="mb-4">
@@ -93,7 +100,7 @@ const ModalDetail = ({ student, setDetail }) => {
                                     Batal
                                 </button>
                                 <button
-                                    type="submit"
+                                    onClick={handleEdit}
                                     className="bg-orange mt-3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus :outline-none focus:shadow-outline"
                                 >
                                     Submit
@@ -119,10 +126,10 @@ const ModalDetail = ({ student, setDetail }) => {
                                 <label className="">{student.fakultas}</label>
                             </div>
 
-                            <div className="mb-4 mt-12">
+                            <div className="mb-4 mt-6">
                                 <label className="">Akun : </label>
-                                {gmail !== "" ?
-                                    <label className="">{gmail}</label>
+                                {email !== "" ?
+                                    <label className="">{email}</label>
                                     :
                                     <button
                                         className="p-2 bg-blue-600 text-white"

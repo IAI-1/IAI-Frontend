@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useHandleStudentAdd } from "../../hooks/student/useHandleStudentAdd"
 import { useStudentContext } from "../../hooks/student/useStudentContext"
 
-const ModalAdd = ({setAdd, url, setLoading, setError}) => {
+const ModalAdd = ({setAdd, setLoading, setError}) => {
     const {dispatch} = useStudentContext();
 
     const [nama, setNama] = useState("")
@@ -14,9 +14,10 @@ const ModalAdd = ({setAdd, url, setLoading, setError}) => {
     const handleClose =(state)=>{
         setAdd(state)
     }
+    const url = 'http://localhost:5000/students/';
 
     const newStudent = {nama, nim, prodi, fakultas, email}
-    const {handeAdd: handelSubmit} = useHandleStudentAdd({url, type:'ADD_STUDENT', dispatch, data:newStudent, setLoading, setError, closeAddPopup: handleClose})
+    const {handeAdd:handleSubmit} = useHandleStudentAdd({url:'http://localhost:5000/students/', type:'ADD_STUDENT', dispatch, data:newStudent, setLoading, setError, closeAddPopup: handleClose})
 
     return (
         <>
@@ -89,9 +90,8 @@ const ModalAdd = ({setAdd, url, setLoading, setError}) => {
                     </div>
                     <div className="flex justify-end">
                         <button
-                            type="submit"
+                            onClick={handleSubmit}
                             className="bg-orange mt-3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus :outline-none focus:shadow-outline"
-                            onClick={handelSubmit}
                         >
                             Submit
                         </button>
