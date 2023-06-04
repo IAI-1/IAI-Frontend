@@ -16,6 +16,7 @@ export const useLogin = ({setError, setLoading}) => {
         });
 
         const user = await response.json();
+        console.log(user)
 
         if (user.success) {
             // use local storage to save email and JWT token
