@@ -6,7 +6,7 @@ export const roomReducer = (state, action) => {
     switch(action.type){
         case 'GET_ROOM':
             return{
-                rooms: action.payload
+                rooms: action.payload.rooms
             }
         case 'ADD_ROOM':
             return{

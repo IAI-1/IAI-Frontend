@@ -2,9 +2,9 @@ import React, { useState } from "react"
 import RoomDelete from "./DeleteRoom"
 
 const RoomDetail = ({ room, handleClose }) => {
-    const [nama, setNama] = useState(room.nama)
-    const [tipe, setTipe] = useState(room.tipe)
-    const [lokasi, setLokasi] = useState(room.lokasi)
+    const [nama, setNama] = useState(room.name)
+    const [tipe, setTipe] = useState(room.type)
+    const [lokasi, setLokasi] = useState(room.location)
 
     const [editMode, setEditMode] = useState(false)
     const setEditView = (state) => {
@@ -81,15 +81,15 @@ const RoomDetail = ({ room, handleClose }) => {
                         :
                         <>
                             <div className="mb-6">
-                                <h3 className="text-2xl font-bold">{room.nama}</h3>
+                                <h3 className="text-2xl font-bold">{room.name}</h3>
                             </div>
                             <div className="mb-3 flex flex-col">
                                 <label className="text-sm">Tipe : </label>
-                                <label className="">{room.tipe}</label>
+                                <label className="">{room.type}</label>
                             </div>
                             <div className="mb-3 flex flex-col">
                                 <label className="text-sm">Lokasi : </label>
-                                <label className="">{room.lokasi}</label>
+                                <label className="">{room.location}</label>
                             </div>
                             <div className="flex justify-end gap-4">
                                 <button
