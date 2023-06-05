@@ -23,6 +23,7 @@ export const useHandleBookDelete = ({url, data, type, dispatch, setLoading, setE
             closeDetailPopup();
             setLoading(false);
             setError(null);
+            console.log(json.data)
             dispatch({ type: type, payload: json.data });
             // notify.info(json.message);
         }

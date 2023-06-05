@@ -9,7 +9,7 @@ const BookDisplay = ({ book, index, setLoading, setError }) => {
 
     return (
         <>
-            {detail && <BookDetail book={book} handleClose={viewDetail} />}
+            {detail && <BookDetail book={book} handleClose={viewDetail} setLoading={setLoading} setError={setError}  />}
             <div key={index} className="p-4 bg-white shadow-md rounded-md">
                 <img
                     src={book.cover}

@@ -30,16 +30,15 @@ const BookReservation = () => {
                 <table className="shadow-2xl border-2 border-dark-blue-200 text-center w-full" >
                     <thead className="bg-dark-blue text-white" >
                         <tr >
-                            <th className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide" > Kode Peminjaman </th>
                             <th className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide" > Judul Buku </th>
                             <th className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide" > Peminjam </th>
-                            <th className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide" > Pengembalian </th>
+                            <th className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide" > Dipinjam </th>
                             <th className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide" > Status </th>
                             <th className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide" > Act </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {rents && rents.borrows.map((rent, index)=>(
+                        {rents && rents.map((rent, index)=>(
                             <RentList rent={rent} index={index} />
                         ))}
                     </tbody>

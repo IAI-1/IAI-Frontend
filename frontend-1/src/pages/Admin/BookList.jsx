@@ -37,8 +37,8 @@ const BookList = () => {
                     > Tambah Buku + </button>
                     <Searchbar />
                 </div>
-                <div className="flex gap-4">
-                    {books && books.books.map((book, index) => (
+                <div className="flex flex-wrap gap-4">
+                    {books && books.map((book, index) => (
                         <BookDisplayAdm book={book} index={index} setLoading={setLoading} setError={setError} />
                     ))}
                 </div>

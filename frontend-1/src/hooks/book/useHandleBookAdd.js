@@ -16,8 +16,9 @@ export const useHandleBookAdd = ({url, data, type, dispatch, setLoading, setErro
         const json = await response.json();
 
         if (json.success) {
-            dispatch({ type: type, payload: json.data });
-            closePopUp();
+            console.log(json.data)
+            dispatch({ type: type, payload: json.data.book });
+            closePopUp(false);
             setLoading(false);
             setError(null);
             // notify.info(json.message);

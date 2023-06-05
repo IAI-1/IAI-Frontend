@@ -26,7 +26,7 @@ export const useHandleStudentUpdate = ({url, data, updatedData, type, dispatch, 
             closeDetailPopup();
             setLoading(false);
             setError(null);
-            dispatch({ type: type, payload: json.data });
+            dispatch({ type: type, payload: json.data.user });
             // notify.info(json.message);
         }
         if (!json.success) {

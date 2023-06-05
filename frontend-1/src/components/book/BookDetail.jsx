@@ -1,4 +1,14 @@
-const BookDetail = ({ book, handleClose }) => {
+import React, { useState } from "react";
+import {useRentContext} from '../../hooks/rent/useRentContext'
+import { useHandleRentBorrow } from "../../hooks/rent/useHandleRentBorrow";
+
+const BookDetail = ({ book, handleClose, setLoading, setError }) => {
+    const {dispatch} = useRentContext();
+
+    const bookId = book._id
+    const newRent = {bookId}
+    const {handleAdd:handleBorrow}=useHandleRentBorrow({url:'http://localhost:5001/library/borrows/borrow', type:'ADD_RENT', dispatch, data:newRent, setLoading, setError, closePopup: handleClose})
+
     return (
         <>
             <div className="overlay z-20"></div>
@@ -37,6 +47,7 @@ const BookDetail = ({ book, handleClose }) => {
 
                     <div className="flex justify-end gap-4">
                         <button
+                            onClick={handleBorrow}
                             className="bg-orange mt-3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus :outline-none focus:shadow-outline"
                         >
                             Pinjam Buku

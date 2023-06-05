@@ -17,19 +17,17 @@ const RentDetail = ({ rent, selfPopUp }) => {
                     <div className="mb-4">
                         <h3 className="text-xl font-bold">{rent.kode}</h3>
                         <div className="flex flex-row gap-2">
-                            <label className="">{rent.tanggal}</label>
-                            <label className="">-</label>
-                            <label className="">{rent.deadline}</label>
+                            <label className="">{rent.borrowedAt}</label>
                         </div>
                         <label className="">{rent.status}</label>
                     </div>
                     <div className="mb-2 flex flex-row gap-2">
                         <label className="">Peminjam : </label>
-                        <label className="">{rent.peminjam}</label>
+                        <label className="">{rent.user.nama}</label>
                     </div>
                     <div className="mb-2 flex flex-row gap-2">
                         <label className="">Judul Buku : </label>
-                        <label className="">{rent.judul}</label>
+                        <label className="">{rent.book.title}</label>
                     </div>
                     <div className="mt-6 flex flex-col">
                         <label className="">Konfirmasi Pengembalian : </label>

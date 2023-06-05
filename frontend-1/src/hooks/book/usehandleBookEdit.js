@@ -26,7 +26,7 @@ export const useHandleBookUpdate = ({url, data, updatedData, type, dispatch, set
             closeDetailPopup();
             setLoading(false);
             setError(null);
-            dispatch({ type: type, payload: json.data });
+            dispatch({ type: type, payload: json.data.book });
             // notify.info(json.message);
         }
         if (!json.success) {
