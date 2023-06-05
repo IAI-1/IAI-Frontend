@@ -1,4 +1,4 @@
-const ModalDelete = ({setPopUp}) => {
+const ModalDelete = ({setPopUp, handleRemove}) => {
     return (
         <>
             <div className="overlay z-50"></div>
@@ -15,6 +15,7 @@ const ModalDelete = ({setPopUp}) => {
                         </div>
                         <div className="inline-block mr-3">
                             <button
+                            onClick={handleRemove}
                                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus :outline-none focus:shadow-outline">
                                 Iya
                             </button>

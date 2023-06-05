@@ -1,10 +1,15 @@
 import { useState } from "react"
 import InputGenre from "./InputGenre"
+import {useHandleBookAdd} from '../../hooks/book/useHandleBookAdd'
+import { useBookContext } from "../../hooks/book/useBookContext"
 
-const AddBook = ({ setAdd }) => {
+const AddBook = ({ setAdd, setLoading, setError }) => {
+    const {dispatch} = useBookContext()
+
     const [title, setTitle] = useState("")
     const [author, setAuthor] = useState("")
     const [publisher, setPublisher] = useState("")
+    const [imageUrl, setImageUrl] = useState("test")
     const [genres, setGenres] = useState([])
     const [synopsis, setSynopsis] = useState("")
     const [isFiction, setIsFiction] = useState("")
@@ -18,11 +23,14 @@ const AddBook = ({ setAdd }) => {
         setAdd(state)
     }
 
+    const newBook = {title, author, publisher, imageUrl, synopsis, isFiction, numOfBooks, genres}
+    const {handleAdd:handleSubmit}=useHandleBookAdd({url:'http://localhost:5001/library/books', type:'ADD_BOOK', dispatch, data:newBook, setLoading, setError, closeAddPopup: handleClose})
+
     return (
         <>
             <div className="overlay z-20"></div>
             <div className="container w-fit mx-auto absolute z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hover:scale-105 transition-all duration-700">
-                <form className="w-screen max-w-xl mx-8 bg-white shadow-xl rounded-3xl px-8 pt-6 pb-8 mb-4">
+                <div className="w-screen max-w-xl mx-8 bg-white shadow-xl rounded-3xl px-8 pt-6 pb-8 mb-4">
                     <div className="flex justify-end">
                         <button className="" onClick={(e) => handleClose(false)} >x</button>
                     </div>
@@ -114,13 +122,13 @@ const AddBook = ({ setAdd }) => {
 
                     <div className="flex justify-end">
                         <button
-                            type="submit"
+                            onClick={handleSubmit}
                             className="bg-orange mt-3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus :outline-none focus:shadow-outline"
                         >
                             Submit
                         </button>
                     </div>
-                </form>
+                </div>
             </div>
         </>
     );

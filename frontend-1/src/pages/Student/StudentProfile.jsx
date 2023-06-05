@@ -1,13 +1,16 @@
 import React, { useState } from "react";
+import { useAuthContext } from "../../hooks/auth/useAuthContext";
 
 const StudentProfile = () => {
+    const {user} = useAuthContext();
+
     const [imgProfile, setImgProfile] = useState("")
 
-    const [name, setName] = useState("Aditya Ramadhan")
-    const [nim, setNim] = useState("20/460535/TK/51124")
-    const [prodi, setProdi] = useState("Teknologi Informasi")
-    const [fakultas, setFakultas] = useState("Teknik")
-    const [email, setEmail] = useState("adityaramadhan01@mail.ugm.ac.id")
+    const [name, setName] = useState(user.user.nama)
+    const [nim, setNim] = useState(user.user.nim)
+    const [prodi, setProdi] = useState(user.user.prodi)
+    const [fakultas, setFakultas] = useState(user.user.fakultas)
+    const [email, setEmail] = useState(user.user.email)
 
     const [password, setPassword] = useState("")
     const [newPass, setNewPass] = useState("")

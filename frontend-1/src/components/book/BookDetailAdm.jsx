@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import InputGenre from "./InputGenre";
 import BookDelete from "./DeleteBook";
+import { useBookContext } from "../../hooks/book/useBookContext";
+import { useHandleBookUpdate } from "../../hooks/book/usehandleBookEdit";
+import { useHandleBookDelete } from "../../hooks/book/useHandleBookDelete";
 
-const BookDetailAdm = ({ book, handleClose }) => {
+const BookDetailAdm = ({ book, handleClose, setLoading, setError }) => {
     const [title, setTitle] = useState(book.title)
     const [author, setAuthor] = useState(book.author)
     const [publisher, setPublisher] = useState(book.publisher)
@@ -10,6 +13,7 @@ const BookDetailAdm = ({ book, handleClose }) => {
     const [synopsis, setSynopsis] = useState(book.synopsis)
     const [isFiction, setIsFiction] = useState(book.isFiction)
     const [numOfBooks, setNumOfBooks] = useState(book.numOfBooks)
+    const [imageUrl, setImageUrl] = useState(book.imageUrl)
 
     const [editMode, setEditMode] = useState(false)
     const setEditView = (state) => {
@@ -25,9 +29,16 @@ const BookDetailAdm = ({ book, handleClose }) => {
         setIsFiction(state)
     }
 
+    const {dispatch} = useBookContext();
+
+    const updated = {title, author, publisher, imageUrl, synopsis, isFiction, numOfBooks, genres}
+    console.log(updated)
+    const {handleUpdate:handleEdit}=useHandleBookUpdate({url: 'http://localhost:5001/library/books/', type: 'EDIT_BOOK', dispatch, data: book, updatedData: updated, setLoading, setError, closeDetailPopup: handleClose})
+    const {handleDelete:handleRemove}= useHandleBookDelete({url: 'http://localhost:5001/library/books/', type: 'DELETE_BOOK', dispatch, data: book, setLoading, setError, closeDetailPopup: handleClose})
+
     return (
         <>
-            {deleteModal && <BookDelete setPopUp={setDeleteView} />}
+            {deleteModal && <BookDelete setPopUp={setDeleteView} handleRemove={handleRemove} />}
             <div className="overlay z-20"></div>
             <div className="container w-fit mx-auto absolute z-30 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hover:scale-105 transition-all duration-700">
                 <div className="w-screen max-w-xl mx-8 bg-white shadow-xl rounded-3xl px-6 py-6">
@@ -128,7 +139,7 @@ const BookDetailAdm = ({ book, handleClose }) => {
                                     Batal
                                 </button>
                                 <button
-                                    type="submit"
+                                    onClick={handleEdit}
                                     className="bg-orange mt-3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus :outline-none focus:shadow-outline"
                                 >
                                     Submit

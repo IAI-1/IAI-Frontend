@@ -1,13 +1,21 @@
 import React from "react";
 import Searchbar from "../../components/public/searchbar";
 import RentList from "../../components/book/RentList";
+import {useRentContext} from '../../hooks/rent/useRentContext'
+import useFetch from '../../hooks/useFetch';
+import { useDisplayContext } from "../../hooks/useDisplayContext";
 
 const BookReservation = () => {
-    const rents = [
-        { kode: 'xx-123-abc-123', judul: 'Buku A', peminjam:'si A', tanggal:'13/05/2023', deadline:'20/05/2023', status:'dipinjam' },
-        { kode: 'xx-124-abc-124', judul: 'Buku B', peminjam:'si B', tanggal:'14/05/2023', deadline:'21/05/2023', status:'terlambat' },
-        { kode: 'xx-125-abc-125', judul: 'Buku C', peminjam:'si C', tanggal:'14/05/2023', deadline:'21/05/2023', status:'dikembalikan' },
-    ];
+    // const rents = [
+    //     { kode: 'xx-123-abc-123', judul: 'Buku A', peminjam:'si A', tanggal:'13/05/2023', deadline:'20/05/2023', status:'dipinjam' },
+    //     { kode: 'xx-124-abc-124', judul: 'Buku B', peminjam:'si B', tanggal:'14/05/2023', deadline:'21/05/2023', status:'terlambat' },
+    //     { kode: 'xx-125-abc-125', judul: 'Buku C', peminjam:'si C', tanggal:'14/05/2023', deadline:'21/05/2023', status:'dikembalikan' },
+    // ];
+    const {rents, dispatch} = useRentContext()
+    const { notify, isPending, error, setLoading, setError } = useDisplayContext();
+    const url = 'http://localhost:5001/library/borrows';
+    useFetch({ url, dispatch, setError, setLoading, type: 'GET_RENT' });
+    console.log(rents)
 
     return (
         <>
@@ -31,7 +39,7 @@ const BookReservation = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {rents && rents.map((rent, index)=>(
+                        {rents && rents.borrows.map((rent, index)=>(
                             <RentList rent={rent} index={index} />
                         ))}
                     </tbody>

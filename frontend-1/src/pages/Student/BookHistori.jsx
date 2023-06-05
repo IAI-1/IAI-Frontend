@@ -1,8 +1,17 @@
 import React from "react";
 import Searchbar from "../../components/public/searchbar";
 import { Link } from "react-router-dom";
+import {useRentContext} from '../../hooks/rent/useRentContext'
+import useFetch from '../../hooks/useFetch';
+import { useDisplayContext } from "../../hooks/useDisplayContext";
+import RentList from "../../components/book/RentList";
 
 const BookHistori = () => {
+    const {rents, dispatch} = useRentContext()
+    const { notify, isPending, error, setLoading, setError } = useDisplayContext();
+    const url = 'http://localhost:5001/library/borrows';
+    useFetch({ url, dispatch, setError, setLoading, type: 'GET_RENT' });
+
     return (
         <>
             <div className="justify-center items-center py-20 lg:py-10 px-3 lg:px-28 h-full" >

@@ -2,13 +2,20 @@ import React from "react";
 import BookDisplay from "../../components/book/BookDisplay";
 import Searchbar from "../../components/public/searchbar";
 import { Link } from "react-router-dom";
+import {useBookContext} from '../../hooks/book/useBookContext';
+import useFetch from '../../hooks/useFetch';
+import { useDisplayContext } from "../../hooks/useDisplayContext";
 
 const BookBooking = () => {
-    const books = [
-        { title: 'Book 1', author: 'Author 1', publisher:'Publisher 1', synopsis:'lorem ipsum sir dolor amet', isFiction:true, numOfBooks:5, genres:['gen1','gen2', 'gen3'], cover: 'book1.jpg' },
-        { title: 'Book 2', author: 'Author 2', publisher:'Publisher 2', synopsis:'lorem ipsum sir dolor amet', isFiction:true, numOfBooks:8, genres:['gen1','gen2', 'gen3'], cover: 'book2.jpg' },
-        { title: 'Book 3', author: 'Author 3', publisher:'Publisher 3', synopsis:'lorem ipsum sir dolor amet', isFiction:true, numOfBooks:11, genres:['gen1','gen2', 'gen3'], cover: 'book3.jpg' },
-    ];
+    // const books = [
+    //     { title: 'Book 1', author: 'Author 1', publisher:'Publisher 1', synopsis:'lorem ipsum sir dolor amet', isFiction:true, numOfBooks:5, genres:['gen1','gen2', 'gen3'], cover: 'book1.jpg' },
+    //     { title: 'Book 2', author: 'Author 2', publisher:'Publisher 2', synopsis:'lorem ipsum sir dolor amet', isFiction:true, numOfBooks:8, genres:['gen1','gen2', 'gen3'], cover: 'book2.jpg' },
+    //     { title: 'Book 3', author: 'Author 3', publisher:'Publisher 3', synopsis:'lorem ipsum sir dolor amet', isFiction:true, numOfBooks:11, genres:['gen1','gen2', 'gen3'], cover: 'book3.jpg' },
+    // ];
+    const {books, dispatch} = useBookContext()
+    const { notify, isPending, error, setLoading, setError } = useDisplayContext();
+    const url = 'http://localhost:5001/library/books';
+    useFetch({ url, dispatch, setError, setLoading, type: 'GET_BOOK' });
 
     return (
         <>
@@ -21,7 +28,7 @@ const BookBooking = () => {
                     <Searchbar />
                 </div>
                 <div className="flex gap-4">
-                    {books && books.map((book, index) => (
+                    {books && books.books.map((book, index) => (
                         <BookDisplay book={book} index={index} />
                     ))}
                 </div>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import BookDetailAdm from "./BookDetailAdm";
 
-const BookDisplayAdm = ({ book, index }) => {
+const BookDisplayAdm = ({ book, index, setLoading, setError }) => {
     const [detail, setDetail] = useState(false)
     const viewDetail=(state)=>{
         setDetail(state)
@@ -9,7 +9,7 @@ const BookDisplayAdm = ({ book, index }) => {
 
     return (
         <>
-            {detail && <BookDetailAdm book={book} handleClose={viewDetail} />}
+            {detail && <BookDetailAdm book={book} handleClose={viewDetail} setLoading={setLoading} setError={setError} />}
             <div key={index} className="p-4 bg-white shadow-md rounded-md">
                 <img
                     src={book.cover}

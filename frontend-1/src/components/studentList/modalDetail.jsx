@@ -3,6 +3,7 @@ import ModalDelete from "./modalDelete"
 import { Link } from "react-router-dom"
 import { useHandleStudentUpdate } from "../../hooks/student/useHandleStudentEdit"
 import { useStudentContext } from "../../hooks/student/useStudentContext"
+import { useHandleStudentDelete } from "../../hooks/student/useHandleStudentDelete"
 
 const ModalDetail = ({ student, setDetail, setLoading, setError }) => {
     const [editMode, setEditMode] = useState(false)
@@ -31,10 +32,11 @@ const ModalDetail = ({ student, setDetail, setLoading, setError }) => {
 
     const updated = {nama, nim, prodi, fakultas, email}
     const {handleUpdate:handleEdit}=useHandleStudentUpdate({url: 'http://localhost:5000/students/', type: 'EDIT_STUDENT', dispatch, data: student, updatedData: updated, setLoading, setError, closeDetailPopup: handleClose})
+    const {handleDelete:handleRemove}=useHandleStudentDelete({url: 'http://localhost:5000/students/', type: 'DELETE_STUDENT', dispatch, data: student, setLoading, setError, closeDetailPopup: handleClose})
 
     return (
         <>
-            {deleteModal && <ModalDelete setPopUp={setDeleteView} />}
+            {deleteModal && <ModalDelete setPopUp={setDeleteView} handleRemove={handleRemove}/>}
             <div className="overlay z-20"></div>
             <div className="container w-fit mx-auto absolute z-30 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hover:scale-105 transition-all duration-700">
                 <div className="flex flex-col justify-start text-left w-screen max-w-xl mx-8 bg-white shadow-xl rounded-3xl px-8 pt-6 pb-8 mb-4">
