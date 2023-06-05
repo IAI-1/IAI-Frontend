@@ -48,7 +48,7 @@ const StudentList = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {students && students.students.map((student, index)=>(
+                        {students && students.map((student, index)=>(
                             <StudentRow student={student} index={index} setLoading={setLoading} setError={setError} />
                         ))}
                     </tbody>

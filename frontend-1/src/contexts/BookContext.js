@@ -6,22 +6,22 @@ export const bookReducer = (state, action) => {
     switch(action.type){
         case 'GET_BOOK':
             return{
-                books: action.payload
+                books: action.payload.books
             }
         case 'ADD_BOOK':
             return{
-                books:[action.payload, ...state.books.books]
+                books:[action.payload, ...state.books]
             }
         case 'EDIT_BOOK':
             return{
                 books: state.books.map((item)=>{
-                    return item.id !== action.payload.id ? item:action.payload
+                    return item._id !== action.payload._id ? item:action.payload
                 })
             }
         case 'DELETE_BOOK':
             return{
                 books: state.books.filter((item)=>{
-                    return item.id !== action.payload.id
+                    return item._id !== action.payload
                 })
             }
         default:

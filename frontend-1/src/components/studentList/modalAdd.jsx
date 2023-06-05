@@ -17,7 +17,7 @@ const ModalAdd = ({setAdd, setLoading, setError}) => {
     const url = 'http://localhost:5000/students/';
 
     const newStudent = {nama, nim, prodi, fakultas, email}
-    const {handeAdd:handleSubmit} = useHandleStudentAdd({url:'http://localhost:5000/students/', type:'ADD_STUDENT', dispatch, data:newStudent, setLoading, setError, closeAddPopup: handleClose})
+    const {handleAdd:handleSubmit} = useHandleStudentAdd({url:'http://localhost:5000/students/', type:'ADD_STUDENT', dispatch, data:newStudent, setLoading, setError, closeAddPopup: handleClose})
 
     return (
         <>

@@ -34,7 +34,7 @@ const BookDetailAdm = ({ book, handleClose, setLoading, setError }) => {
     const updated = {title, author, publisher, imageUrl, synopsis, isFiction, numOfBooks, genres}
     console.log(updated)
     const {handleUpdate:handleEdit}=useHandleBookUpdate({url: 'http://localhost:5001/library/books/', type: 'EDIT_BOOK', dispatch, data: book, updatedData: updated, setLoading, setError, closeDetailPopup: handleClose})
-    const {handleDelete:handleRemove}= useHandleBookDelete({url: 'http://localhost:5001/library/books/', type: 'DELETE_BOOK', dispatch, data: book, setLoading, setError, closeDetailPopup: handleClose})
+    const {handleRemove:handleRemove}= useHandleBookDelete({url: 'http://localhost:5001/library/books/', type: 'DELETE_BOOK', dispatch, data: book, setLoading, setError, closeDetailPopup: handleClose})
 
     return (
         <>

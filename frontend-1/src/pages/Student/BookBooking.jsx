@@ -27,9 +27,9 @@ const BookBooking = () => {
                     <Link className="text-sm text-blue-700 font-bold cursor-pointer" to="/book/history">Lihat Riwayat Peminjaman</Link>
                     <Searchbar />
                 </div>
-                <div className="flex gap-4">
-                    {books && books.books.map((book, index) => (
-                        <BookDisplay book={book} index={index} />
+                <div className="flex flex-wrap gap-4">
+                    {books && books.map((book, index) => (
+                        <BookDisplay book={book} index={index} setLoading={setLoading} setError={setError} />
                     ))}
                 </div>
             </div>

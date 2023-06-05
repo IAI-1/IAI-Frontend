@@ -6,7 +6,7 @@ export const rentReducer = (state, action) => {
     switch(action.type){
         case 'GET_RENT':
             return{
-                rents: action.payload
+                rents: action.payload.borrows
             }
         case 'ADD_RENT':
             return{

@@ -6,7 +6,7 @@ export const studentReducer = (state, action) => {
     switch(action.type){
         case 'GET_STUDENT':
             return{
-                students: action.payload
+                students: action.payload.students
             }
         case 'ADD_STUDENT':
             return{
@@ -14,13 +14,13 @@ export const studentReducer = (state, action) => {
             }
         case 'EDIT_STUDENT':
             return{
-                students: state.students.students.map((item)=>{
-                    return item.id !== action.payload.id ? item:action.payload
+                students: state.students.map((item)=>{
+                    return item._id !== action.payload._id ? item:action.payload
                 })
             }
         case 'DELETE_STUDENT':
             return{
-                students: state.students.filter((item)=>{
+                students: state.students.students.filter((item)=>{
                     return item.id !== action.payload.id
                 })
             }

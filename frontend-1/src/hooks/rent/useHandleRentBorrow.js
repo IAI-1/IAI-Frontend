@@ -1,37 +1,34 @@
 import { useAuthContext } from "../auth/useAuthContext";
-
-export const useHandleStudentAdd = ({url, data, type, dispatch, setLoading, setError, closeAddPopup}) => {
-    const { user } = useAuthContext();
-
-    const add = async () => {
-        if (!user) {
-            // notify.info('You must be logged in');
-            return;
-        }
-
+export const useHandleRentBorrow = ({url, data, type, dispatch, setLoading, setError, closePopUp, notify}) => {
+    const user = useAuthContext();
+    
+    const add = async()=>{
         setLoading(true);
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                "Content-Type": "application/json",
-                'Authorization': `Bearer ${user.accessToken}`
+                'Authorization': `Bearer ${user.user.accessToken}`,
+                "Content-Type": "application/json"
             },
             body: JSON.stringify(data),
+            user: {
+                id: user.user._id
+            }
         })
 
         const json = await response.json();
-        
+
         if (json.success) {
-            console.log(json.data.user)
-            dispatch({ type: type, payload: json.data.user });
-            closeAddPopup();
+            console.log(json.data)
+            dispatch({ type: type, payload: json.data.book });
+            closePopUp(false);
             setLoading(false);
             setError(null);
             // notify.info(json.message);
         }
         if (!json.success) {
             setLoading(false);
-            setError(json.error);
+            // setError(json.error);
             // notify.error(json.error);
         }
     }
