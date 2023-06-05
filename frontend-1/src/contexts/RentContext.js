@@ -3,6 +3,7 @@ import { createContext, useReducer } from "react";
 export const RentContext = createContext();
 
 export const rentReducer = (state, action) => {
+    console.log(state)
     switch(action.type){
         case 'GET_RENT':
             return{
@@ -30,12 +31,12 @@ export const rentReducer = (state, action) => {
 }
 
 const RentContextProvider = ({children})=>{
-    const [state, dispatch] = useReducer(rentReducer, {
+    const [state, dispatch2] = useReducer(rentReducer, {
         rents: null
     })
 
     return(
-        <RentContext.Provider value={{ ...state, dispatch}}>
+        <RentContext.Provider value={{ ...state, dispatch2}}>
             {children}
         </RentContext.Provider>
     )

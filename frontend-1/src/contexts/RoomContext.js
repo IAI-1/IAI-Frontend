@@ -3,6 +3,8 @@ import { createContext, useReducer } from "react";
 export const RoomContext = createContext();
 
 export const roomReducer = (state, action) => {
+    console.log(state.rooms)
+    console.log(action.payload)
     switch(action.type){
         case 'GET_ROOM':
             return{

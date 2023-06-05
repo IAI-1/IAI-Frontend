@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import RoomDetail from "./RoomDetail";
 
-const RoomRow = ({ room, index }) => {
+const RoomRow = ({ room, index, setLoading, setError }) => {
     const [detail, setDetail] = useState(false)
     const viewDetail =(state)=>{
         setDetail(state)
@@ -9,7 +9,7 @@ const RoomRow = ({ room, index }) => {
 
     return (
         <>
-            {detail && <RoomDetail room={room} handleClose={viewDetail} />}
+            {detail && <RoomDetail room={room} handleClose={viewDetail} setLoading={setLoading} setError={setError} />}
             <tr key={index} className="">
                 <td className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide">{index+1}</td>
                 <td className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide">{room.name}</td>

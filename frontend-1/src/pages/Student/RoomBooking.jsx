@@ -2,7 +2,27 @@ import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+import useFetch from "../../hooks/useFetch";
+import { useDisplayContext } from "../../hooks/useDisplayContext";
+import { useRoomContext } from '../../hooks/room/useRoomContext'
+import { useRsvContext } from '../../hooks/rsv/useRsvContext'
+import {useHandleRsvBorrow} from '../../hooks/rsv/useHandleRsvBorrow'
+
+import RoomOption from '../../components/room/RoomOption'
+
+import {useAuthContext} from '../../hooks/auth/useAuthContext'
+
 const RoomBooking = () => {
+    const {user} = useAuthContext()
+    const [userName, setUserName] = useState(user.user.nama)
+    const [userId, setUserId] = useState(user.user._id)
+    const [email, setEmail] = useState(user.user.email)
+
+    const [roomId, setRoomId] = useState("");
+    const chooseRoom = (id) =>{
+        setRoomId(JSON.parse(id))
+    }
+
     const rules = [
         { description: 'Maksimal Peminjaman dilakukan dalam 1 hari sebelum penggunaan ruangan.' },
         { description: 'Pengguna yang sudah memesan tapi tidak hadir, maka dikenakan sanksi pemblokiran sampai 3 hari. Kecuali melakukan pembatalan pemesanan maksimal 1 hari sebelum waktu jam buka pada periode dan hari yang ditentukan.' },
@@ -14,6 +34,11 @@ const RoomBooking = () => {
         location: '',
     });
 
+    const { rooms, dispatch } = useRoomContext();
+    const { notify, isPending, error, setLoading, setError } = useDisplayContext();
+    const url = 'http://localhost:5002/campus/rooms';
+    useFetch({ url, dispatch, setError, setLoading, type: 'GET_ROOM' });
+
     const handleChange = (e, index) => {
         setFormData({
             ...formData,
@@ -23,6 +48,13 @@ const RoomBooking = () => {
     const listRules = rules.map(rules =>
         <li>{rules.description}</li>
     );
+
+    const newRsv = {userId, roomId}
+    console.log(newRsv)
+    const { rsvs, dispatch2 } = useRsvContext();
+    useFetch({ url:'http://localhost:5002/campus/bookings/', dispatch:dispatch2, setError, setLoading, type: 'GET_RSV' });
+    const {handleAdd:handleSubmit}=useHandleRsvBorrow({url:'http://localhost:5002/campus/bookings/booking', type:'ADD_RSV', dispatch:dispatch2, data:newRsv, setLoading, setError})
+
     return (
         <>
             <div className="bg-blue flex py-5 px-16 text-xl">
@@ -41,27 +73,21 @@ const RoomBooking = () => {
                         </ol>
                     </div>
                     <form className="text-sm grid grid-cols-2 gap-x-16 gap-y-4 pb-5 items-center bg-graylight border-solid border-2 border-gray px-10 py-3 ml-8 mr-4">
-                        <div className="w-full">
+                        <div className="w-full  flex gap-4">
                             <label htmlFor="name">
-                                Nama Peminjam
+                                Peminjam :
                             </label>
-                            <input
-                                type="text"
-                                id="name"
-                                className="w-full mt-2 bg-white border border-graydark rounded"
-                            >
-                            </input>
+                            <label>
+                                {userName}
+                            </label>
                         </div>
-                        <div className="bw-full">
+                        <div className="bw-full flex flex-col">
                             <label htmlFor="email">
                                 Email UGM
                             </label>
-                            <input
-                                type="email"
-                                id="email"
-                                className="w-full mt-2 bg-white border border-graydark rounded"
-                            >
-                            </input>
+                            <label>
+                                {email}
+                            </label>
                         </div>
                         <div className="bw-full">
                             <label htmlFor="needs">
@@ -81,14 +107,12 @@ const RoomBooking = () => {
                             <select
                                 id="location"
                                 name="location"
-                                value={formData.location}
-                                onChange={handleChange}
+                                onChange={(e)=>{chooseRoom(e.target.value)}}
                                 className="w-full border border-gray-300 px-3 py-2 rounded"
                             >
-                                <option value="">Pilih Ruangan</option>
-                                <option value="Location A">E6 - Lt. 3</option>
-                                <option value="Location B">E9 - Lt. 3</option>
-                                <option value="Location C">RPL - Lt. 2</option>
+                                {rooms && rooms?.map(room=>{
+                                    return <RoomOption room={room} />
+                                })}
                             </select>
                         </div>
                         <div className="bw-full">
@@ -125,7 +149,10 @@ const RoomBooking = () => {
                     </form>
                     <div className="flex justify-end mx-4 gap-4 items-center">
                         <Link className="text-sm text-blue-700 font-bold cursor-pointer" to="/reservation/history">Lihat Riwayat Reservasi</Link>
-                        <button className="h-fit w-fit bg-orange text-white font py-2 px-4 flex rounded">
+                        <button 
+                            onClick={handleSubmit}
+                            className="h-fit w-fit bg-orange text-white font py-2 px-4 flex rounded"
+                        >
                             Book Now
                         </button>
                     </div>

@@ -1,9 +1,10 @@
 import React from "react";
 import Searchbar from "../../components/public/searchbar";
 import RentList from "../../components/book/RentList";
-import {useRentContext} from '../../hooks/rent/useRentContext'
+import { useRentContext } from '../../hooks/rent/useRentContext'
 import useFetch from '../../hooks/useFetch';
 import { useDisplayContext } from "../../hooks/useDisplayContext";
+import { useSearch } from "../../hooks/useSearch";
 
 const BookReservation = () => {
     // const rents = [
@@ -11,11 +12,14 @@ const BookReservation = () => {
     //     { kode: 'xx-124-abc-124', judul: 'Buku B', peminjam:'si B', tanggal:'14/05/2023', deadline:'21/05/2023', status:'terlambat' },
     //     { kode: 'xx-125-abc-125', judul: 'Buku C', peminjam:'si C', tanggal:'14/05/2023', deadline:'21/05/2023', status:'dikembalikan' },
     // ];
-    const {rents, dispatch} = useRentContext()
+    const { rents, dispatch2 } = useRentContext()
     const { notify, isPending, error, setLoading, setError } = useDisplayContext();
     const url = 'http://localhost:5001/library/borrows';
-    useFetch({ url, dispatch, setError, setLoading, type: 'GET_RENT' });
+    useFetch({ url, dispatch: dispatch2, setError, setLoading, type: 'GET_RENT' });
     console.log(rents)
+
+    const { searchResult, getSearchTerm, inputEl, searchTerm } = useSearch(rents);
+    const rentList = searchTerm < 1 ? rents : searchResult;
 
     return (
         <>
@@ -24,7 +28,11 @@ const BookReservation = () => {
                     <h1 className="text-4xl font-bold">Data Peminjaman Buku</h1>
                 </div>
                 <div className="justify-between sm:justify-end flex-row sm:flex mb-6" >
-                    <Searchbar />
+                    <Searchbar
+                        term={searchTerm}
+                        getSearchTerm={getSearchTerm}
+                        inputEl={inputEl}
+                    />
                 </div>
 
                 <table className="shadow-2xl border-2 border-dark-blue-200 text-center w-full" >
@@ -38,7 +46,7 @@ const BookReservation = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {rents && rents.map((rent, index)=>(
+                        {rentList && rentList.map((rent, index) => (
                             <RentList rent={rent} index={index} />
                         ))}
                     </tbody>

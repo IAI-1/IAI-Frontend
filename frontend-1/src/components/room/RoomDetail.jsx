@@ -1,10 +1,12 @@
 import React, { useState } from "react"
 import RoomDelete from "./DeleteRoom"
+import {useHandleRoomUpdate} from '../../hooks/room/useHandleRoomEdit'
+import {useRoomContext} from '../../hooks/room/useRoomContext'
 
-const RoomDetail = ({ room, handleClose }) => {
-    const [nama, setNama] = useState(room.name)
-    const [tipe, setTipe] = useState(room.type)
-    const [lokasi, setLokasi] = useState(room.location)
+const RoomDetail = ({ room, handleClose, setLoading, setError }) => {
+    const [name, setNama] = useState(room.name)
+    const [type, setTipe] = useState(room.type)
+    const [location, setLokasi] = useState(room.location)
 
     const [editMode, setEditMode] = useState(false)
     const setEditView = (state) => {
@@ -15,6 +17,12 @@ const RoomDetail = ({ room, handleClose }) => {
     const setDeleteView = (state) => {
         setDeleteModal(state)
     }
+
+    const {dispatch} = useRoomContext();
+
+    const updated = {name, type, location }
+    const {handleUpdate:handleEdit}=useHandleRoomUpdate({url: 'http://localhost:5002/campus/rooms/', type: 'EDIT_ROOM', dispatch, data: room, updatedData: updated, setLoading, setError, closeDetailPopup: handleClose})
+
     return (
         <>
             {deleteModal && <RoomDelete setPopUp={setDeleteView}/> }
@@ -27,7 +35,7 @@ const RoomDetail = ({ room, handleClose }) => {
                     {editMode ?
                         <>
                             <div className="mb-2">
-                                {nama != "" && <label className="">Nama Ruangan : </label>}
+                                {name != "" && <label className="">Nama Ruangan : </label>}
                                 <input
                                     required
                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -35,11 +43,11 @@ const RoomDetail = ({ room, handleClose }) => {
                                     type="text"
                                     placeholder="Nama Ruangan"
                                     onChange={(e) => setNama(e.target.value)}
-                                    value={nama}
+                                    value={name}
                                 />
                             </div>
                             <div className="mb-2">
-                                {tipe != "" && <label className="">Tipe : </label>}
+                                {type != "" && <label className="">Tipe : </label>}
                                 <input
                                     required
                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -47,11 +55,11 @@ const RoomDetail = ({ room, handleClose }) => {
                                     type="text"
                                     placeholder="Tipe ruangan"
                                     onChange={(e) => setTipe(e.target.value)}
-                                    value={tipe}
+                                    value={type}
                                 />
                             </div>
                             <div className="mb-2">
-                                {lokasi != "" && <label className="">Lokasi : </label>}
+                                {location != "" && <label className="">Lokasi : </label>}
                                 <input
                                     required
                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -59,7 +67,7 @@ const RoomDetail = ({ room, handleClose }) => {
                                     type="text"
                                     placeholder="Lokasi ruangan"
                                     onChange={(e) => setLokasi(e.target.value)}
-                                    value={lokasi}
+                                    value={location}
                                 />
                             </div>
                             
@@ -71,7 +79,7 @@ const RoomDetail = ({ room, handleClose }) => {
                                     Batal
                                 </button>
                                 <button
-                                    type="submit"
+                                    onClick={handleEdit}
                                     className="bg-orange mt-3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus :outline-none focus:shadow-outline"
                                 >
                                     Submit

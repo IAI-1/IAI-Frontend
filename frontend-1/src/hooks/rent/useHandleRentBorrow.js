@@ -20,7 +20,7 @@ export const useHandleRentBorrow = ({url, data, type, dispatch, setLoading, setE
 
         if (json.success) {
             console.log(json.data)
-            dispatch({ type: type, payload: json.data.book });
+            dispatch({ type: type, payload: json.data.borrow });
             closePopUp(false);
             setLoading(false);
             setError(null);

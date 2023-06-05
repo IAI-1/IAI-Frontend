@@ -4,13 +4,15 @@ import { Link } from "react-router-dom";
 import {useRentContext} from '../../hooks/rent/useRentContext'
 import useFetch from '../../hooks/useFetch';
 import { useDisplayContext } from "../../hooks/useDisplayContext";
-import RentList from "../../components/book/RentList";
+import RentHistList from '../../components/book/RentHistList'
 
 const BookHistori = () => {
     const {rents, dispatch} = useRentContext()
     const { notify, isPending, error, setLoading, setError } = useDisplayContext();
-    const url = 'http://localhost:5001/library/borrows';
+    const url = 'http://localhost:5001/library/borrows/';
     useFetch({ url, dispatch, setError, setLoading, type: 'GET_RENT' });
+
+    console.log(rents)
 
     return (
         <>
@@ -26,25 +28,16 @@ const BookHistori = () => {
                 <table className="shadow-2xl border-2 border-dark-blue-200 text-center w-full" >
                     <thead className="bg-dark-blue text-white" >
                         <tr >
-                            <th className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide" > No </th>
-                            <th className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide" > Kode Peminjaman </th>
                             <th className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide" > Judul Buku </th>
-                            <th className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide" > Tanggal Peminjaman </th>
+                            <th className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide" > Peminjam </th>
                             <th className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide" > Tanggal Pengembalian </th>
                             <th className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide" > Status </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr key="" className="">
-                            <td className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide">1</td>
-                            <td className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide">XX-123456-XX-12345</td>
-                            <td className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide">Teknologi Informasi</td>
-                            <td className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide">20/05/2023</td>
-                            <td className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide">27/05/2023</td>
-                            <td className="py-3 bg-white-800 p-3 text-sm font-semibold tracking-wide">
-                                <p className="cursor-pointer text-green-700">Dipinjam</p>
-                            </td>
-                        </tr>
+                        {rents && rents.map((rent, index)=>{
+                            return <RentHistList rent={rent} index={index} />
+                        })}
                     </tbody>
                 </table>
                 <div className="flex-row">

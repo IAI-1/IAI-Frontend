@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import {useBookContext} from '../../hooks/book/useBookContext';
 import useFetch from '../../hooks/useFetch';
 import { useDisplayContext } from "../../hooks/useDisplayContext";
+import {useRentContext} from '../../hooks/rent/useRentContext'
 
 const BookBooking = () => {
     // const books = [
@@ -16,6 +17,11 @@ const BookBooking = () => {
     const { notify, isPending, error, setLoading, setError } = useDisplayContext();
     const url = 'http://localhost:5001/library/books';
     useFetch({ url, dispatch, setError, setLoading, type: 'GET_BOOK' });
+
+    const {rents, dispatch2} = useRentContext()
+    const url2 = 'http://localhost:5001/library/borrows';
+    useFetch({ url:url2, dispatch:dispatch2, setError, setLoading, type: 'GET_RENT' });
+    console.log(rents)
 
     return (
         <>

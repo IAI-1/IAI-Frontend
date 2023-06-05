@@ -10,6 +10,10 @@ const useFetch = ({url, type, dispatch, setError, setLoading, })=>{
                 const response = await fetch(url,{
                     headers:{
                         'Authorization': `Bearer ${user.accessToken}`
+                    },
+                    user:{
+                        id: user.user._id,
+                        role: user.user.role
                     }
                 });
                 const json = await response.json();
