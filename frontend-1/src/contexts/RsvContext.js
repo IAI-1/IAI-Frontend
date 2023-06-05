@@ -3,10 +3,11 @@ import { createContext, useReducer } from "react";
 export const RsvContext = createContext();
 
 export const rsvReducer = (state, action) => {
+    console.log(action.payload.bookings)
     switch(action.type){
         case 'GET_RSV':
             return{
-                rsvs: action.payload
+                rsvs: action.payload.bookings
             }
         case 'ADD_RSV':
             return{

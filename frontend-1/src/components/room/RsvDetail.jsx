@@ -16,15 +16,19 @@ const RsvDetail = ({ rsv, selfPopUp }) => {
                     </div>
                     <div className="mb-4">
                         <h3 className="text-xl font-bold">{rsv.kode}</h3>
-                        <label className="">{rsv.tanggal}</label>
+                        <label className="">{rsv.borrowedAt}</label>
+                    </div>
+                    <div className="mb-2 flex flex-row gap-2">
+                        <label className="">Ruang : </label>
+                        <label className="">{rsv.room.name}</label>
                     </div>
                     <div className="mb-2 flex flex-row gap-2">
                         <label className="">Lokasi : </label>
-                        <label className="">{rsv.lokasi}</label>
+                        <label className="">{rsv.room.location}</label>
                     </div>
                     <div className="mb-2 flex flex-row gap-2">
                         <label className="">Peminjam : </label>
-                        <label className="">{rsv.peminjam}</label>
+                        <label className="">{rsv.user.nama}</label>
                     </div>
                     <div className="mt-6 flex flex-col">
                         <label className="">Konfirmasi Peminjaman : </label>

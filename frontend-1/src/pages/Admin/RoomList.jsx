@@ -2,13 +2,21 @@ import React, { useState } from "react";
 import Searchbar from "../../components/public/searchbar"
 import AddRoom from "../../components/room/AddRoom";
 import RoomRow from "../../components/room/RoomList";
+import useFetch from "../../hooks/useFetch";
+import { useRoomContext } from '../../hooks/room/useRoomContext'
+import { useDisplayContext } from "../../hooks/useDisplayContext";
 
 const RoomList = () => {
-  const rooms = [
-    { nama: 'Ruang A', tipe:'Tipe A', lokasi:'Gedung A' },
-    { nama: 'Ruang B', tipe:'Tipe B', lokasi:'Gedung A' },
-    { nama: 'Ruang C', tipe:'Tipe A', lokasi:'Gedung B' },
-];
+  // const rooms = [
+  //   { nama: 'Ruang A', tipe: 'Tipe A', lokasi: 'Gedung A' },
+  //   { nama: 'Ruang B', tipe: 'Tipe B', lokasi: 'Gedung A' },
+  //   { nama: 'Ruang C', tipe: 'Tipe A', lokasi: 'Gedung B' },
+  // ];
+  const { rooms, dispatch } = useRoomContext()
+  const { notify, isPending, error, setLoading, setError } = useDisplayContext();
+  const url = 'http://localhost:5002/campus/rooms';
+  useFetch({ url, dispatch, setError, setLoading, type: 'GET_ROOM' });
+  console.log(rooms)
 
   const [addModal, setAddModal] = useState(false)
   const viewAdd = (state) => {
@@ -41,7 +49,7 @@ const RoomList = () => {
             </tr>
           </thead>
           <tbody>
-            {rooms && rooms.map((room, index)=>(
+            {rooms && rooms.map((room, index) => (
               <RoomRow room={room} index={index} />
             ))}
           </tbody>
