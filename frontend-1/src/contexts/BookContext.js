@@ -10,7 +10,7 @@ export const bookReducer = (state, action) => {
             }
         case 'ADD_BOOK':
             return{
-                books:[action.payload, ...state.books]
+                books:[action.payload, ...state.books.books]
             }
         case 'EDIT_BOOK':
             return{

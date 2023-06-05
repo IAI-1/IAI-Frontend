@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import BookDetail from "./BookDetail";
 
-const BookDisplay = ({ book, index }) => {
+const BookDisplay = ({ book, index, setLoading, setError }) => {
     const [detail, setDetail] = useState(false)
     const viewDetail=(state)=>{
         setDetail(state)
