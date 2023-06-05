@@ -3,11 +3,11 @@ import {useRentContext} from '../../hooks/rent/useRentContext'
 import { useHandleRentBorrow } from "../../hooks/rent/useHandleRentBorrow";
 
 const BookDetail = ({ book, handleClose, setLoading, setError }) => {
-    const {dispatch} = useRentContext();
+    const {rents, dispatch2} = useRentContext();
 
     const bookId = book._id
     const newRent = {bookId}
-    const {handleAdd:handleBorrow}=useHandleRentBorrow({url:'http://localhost:5001/library/borrows/borrow', type:'ADD_RENT', dispatch, data:newRent, setLoading, setError, closePopup: handleClose})
+    const {handleAdd:handleBorrow}=useHandleRentBorrow({url:'http://localhost:5001/library/borrows/borrow', type:'ADD_RENT', dispatch:dispatch2, data:newRent, setLoading, setError, closePopUp: handleClose})
 
     return (
         <>

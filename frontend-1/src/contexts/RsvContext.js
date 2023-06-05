@@ -4,6 +4,7 @@ export const RsvContext = createContext();
 
 export const rsvReducer = (state, action) => {
     console.log(action.payload.bookings)
+    console.log(state)
     switch(action.type){
         case 'GET_RSV':
             return{
@@ -31,12 +32,12 @@ export const rsvReducer = (state, action) => {
 }
 
 const RsvContextProvider = ({children})=>{
-    const [state, dispatch] = useReducer(rsvReducer, {
+    const [state, dispatch2] = useReducer(rsvReducer, {
         rsvs: null
     })
 
     return(
-        <RsvContext.Provider value={{ ...state, dispatch}}>
+        <RsvContext.Provider value={{ ...state, dispatch2}}>
             {children}
         </RsvContext.Provider>
     )

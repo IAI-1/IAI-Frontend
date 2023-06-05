@@ -1,5 +1,5 @@
 import { useAuthContext } from "../auth/useAuthContext";
-export const useHandleRsvBorrow = ({url, data, type, dispatch, setLoading, setError, notify}) => {
+export const useHandleRoomAdd = ({url, data, type, dispatch, setLoading, setError, closePopUp, notify}) => {
     const user = useAuthContext();
     
     const add = async()=>{
@@ -11,16 +11,14 @@ export const useHandleRsvBorrow = ({url, data, type, dispatch, setLoading, setEr
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(data),
-            user: {
-                id: user.user._id
-            }
         })
 
         const json = await response.json();
 
         if (json.success) {
             console.log(json.data)
-            dispatch({ type: type, payload: json.data.booking });
+            dispatch({ type: type, payload: json.data.room });
+            closePopUp(false);
             setLoading(false);
             setError(null);
             // notify.info(json.message);

@@ -12,10 +12,10 @@ const RoomReservation = () => {
     //     { kode: 'xx-126-abc-126', lokasi: 'Ruang A', peminjam:'si C', tanggal:'21/05/2023' },
     // ];
 
-    const {rsvs, dispatch} = useRsvContext();
+    const {rsvs, dispatch2} = useRsvContext();
     const { notify, isPending, error, setLoading, setError } = useDisplayContext();
     const url = 'http://localhost:5002/campus/bookings';
-    useFetch({ url, dispatch, setError, setLoading, type: 'GET_RSV' });
+    useFetch({ url, dispatch:dispatch2, setError, setLoading, type: 'GET_RSV' });
     console.log(rsvs)
 
     

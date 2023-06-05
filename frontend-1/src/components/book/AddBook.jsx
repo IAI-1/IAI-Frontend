@@ -24,7 +24,7 @@ const AddBook = ({ setAdd, setLoading, setError }) => {
     }
 
     const newBook = {title, author, publisher, imageUrl, synopsis, isFiction, numOfBooks, genres}
-    const {handleAdd:handleSubmit}=useHandleBookAdd({url:'http://localhost:5001/library/books', type:'ADD_BOOK', dispatch, data:newBook, setLoading, setError, closePopup: handleClose})
+    const {handleAdd:handleSubmit}=useHandleBookAdd({url:'http://localhost:5001/library/books', type:'ADD_BOOK', dispatch, data:newBook, setLoading, setError, closePopUp: handleClose})
 
     return (
         <>

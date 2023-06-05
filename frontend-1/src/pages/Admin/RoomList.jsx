@@ -5,6 +5,7 @@ import RoomRow from "../../components/room/RoomList";
 import useFetch from "../../hooks/useFetch";
 import { useRoomContext } from '../../hooks/room/useRoomContext'
 import { useDisplayContext } from "../../hooks/useDisplayContext";
+import { useSearch } from "../../hooks/useSearch";
 
 const RoomList = () => {
   // const rooms = [
@@ -22,9 +23,13 @@ const RoomList = () => {
   const viewAdd = (state) => {
     setAddModal(state)
   }
+
+  const { searchResult, getSearchTerm, inputEl, searchTerm } = useSearch(rooms);
+  const roomList = searchTerm < 1 ? rooms : searchResult;
+
   return (
     <>
-      {addModal && <AddRoom setAdd={viewAdd} />}
+      {addModal && <AddRoom setAdd={viewAdd} setLoading={setLoading} setError={setError} />}
       <div className="justify-center items-center py-20 lg:py-10 px-3 lg:px-28 h-full" >
         <div className="mb-12">
           <h1 className="text-4xl font-bold">Data Ruangan</h1>
@@ -35,7 +40,11 @@ const RoomList = () => {
             className="button p-3 mt-2 mb-10 sm:mb-12 mr-7 relative bg-orange text-white font-bold"
             onClick={(e) => (viewAdd(true))}
           > Tambah Ruangan + </button>
-          <Searchbar />
+          <Searchbar
+            term={searchTerm}
+            getSearchTerm={getSearchTerm}
+            inputEl={inputEl}
+          />
         </div>
 
         <table className="shadow-2xl border-2 border-dark-blue-200 text-center w-full" >
@@ -49,8 +58,8 @@ const RoomList = () => {
             </tr>
           </thead>
           <tbody>
-            {rooms && rooms.map((room, index) => (
-              <RoomRow room={room} index={index} />
+            {roomList && roomList.map((room, index) => (
+              <RoomRow room={room} index={index} setLoading={setLoading} setError={setError} />
             ))}
           </tbody>
         </table>

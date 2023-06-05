@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import Searchbar from "../../components/public/searchbar"
 import BookDisplayAdm from "../../components/book/BookDisplayAdm";
 import AddBook from "../../components/book/AddBook";
-import {useBookContext} from '../../hooks/book/useBookContext';
+import { useBookContext } from '../../hooks/book/useBookContext';
 import useFetch from '../../hooks/useFetch';
 import { useDisplayContext } from "../../hooks/useDisplayContext";
+import { useSearch } from "../../hooks/useSearch";
 
 const BookList = () => {
     // const books = [
@@ -12,7 +13,7 @@ const BookList = () => {
     //     { title: 'Book 2', author: 'Author 2', publisher: 'Publisher 2', synopsis: 'lorem ipsum sir dolor amet', isFiction: "true", numOfBooks: 8, genres: ['gen1', 'gen2', 'gen3'], cover: 'book2.jpg' },
     //     { title: 'Book 3', author: 'Author 3', publisher: 'Publisher 3', synopsis: 'lorem ipsum sir dolor amet', isFiction: "true", numOfBooks: 11, genres: ['gen1', 'gen2', 'gen3'], cover: 'book3.jpg' },
     // ];
-    const {books, dispatch} = useBookContext()
+    const { books, dispatch } = useBookContext()
     const { notify, isPending, error, setLoading, setError } = useDisplayContext();
     const url = 'http://localhost:5001/library/books';
     useFetch({ url, dispatch, setError, setLoading, type: 'GET_BOOK' });
@@ -21,6 +22,9 @@ const BookList = () => {
     const viewAdd = (state) => {
         setAddModal(state)
     }
+
+    const { searchResult, getSearchTerm, inputEl, searchTerm } = useSearch(books);
+    const bookList = searchTerm < 1 ? books : searchResult;
 
     return (
         <>
@@ -33,12 +37,16 @@ const BookList = () => {
                     <button
                         type="button"
                         className="button p-3 mt-2 mb-10 sm:mb-12 mr-7 relative bg-orange text-white font-bold"
-                        onClick={(e)=>{viewAdd(true)}}
+                        onClick={(e) => { viewAdd(true) }}
                     > Tambah Buku + </button>
-                    <Searchbar />
+                    <Searchbar
+                        term={searchTerm}
+                        getSearchTerm={getSearchTerm}
+                        inputEl={inputEl}
+                    />
                 </div>
                 <div className="flex flex-wrap gap-4">
-                    {books && books.map((book, index) => (
+                    {bookList && bookList.map((book, index) => (
                         <BookDisplayAdm book={book} index={index} setLoading={setLoading} setError={setError} />
                     ))}
                 </div>

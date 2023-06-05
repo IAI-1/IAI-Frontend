@@ -2,24 +2,28 @@ import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
 
 import { useStudentContext } from "../../hooks/student/useStudentContext";
-import {useDisplayContext} from "../../hooks/useDisplayContext";
+import { useDisplayContext } from "../../hooks/useDisplayContext";
 
 import Searchbar from "../../components/public/searchbar";
 import Pagination from "react-js-pagination";
 import ModalAdd from "../../components/studentList/modalAdd";
 import StudentRow from "../../components/studentList/StudentRow";
+import { useSearch } from '../../hooks/useSearch'
 
 const StudentList = () => {
-    const {students, dispatch} = useStudentContext();
+    const { students, dispatch } = useStudentContext();
     const { notify, isPending, error, setLoading, setError } = useDisplayContext();
     const url = 'http://localhost:5000/students';
     useFetch({ url, dispatch, setError, setLoading, type: 'GET_STUDENT' });
 
     const [add, setAdd] = useState(false)
-    const setAddModal =(state)=>{
+    const setAddModal = (state) => {
         setAdd(state)
     }
     console.log(students)
+
+    const { searchResult, getSearchTerm, inputEl, searchTerm } = useSearch(students);
+    const studList = searchTerm < 1 ? students : searchResult;
 
     return (
         <>
@@ -32,9 +36,13 @@ const StudentList = () => {
                     <button
                         type="button"
                         className="button p-3 mt-2 mb-10 sm:mb-12 mr-7 relative bg-orange text-white font-bold"
-                        onClick={(e)=>setAddModal(true)}
+                        onClick={(e) => setAddModal(true)}
                     > Tambah Mahasiswa + </button>
-                    <Searchbar />
+                    <Searchbar
+                        term={searchTerm}
+                        getSearchTerm={getSearchTerm}
+                        inputEl={inputEl}
+                    />
                 </div>
 
                 <table className="shadow-2xl border-2 border-dark-blue-200 text-center w-full" >
@@ -48,13 +56,13 @@ const StudentList = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {students && students.map((student, index)=>(
+                        {studList && studList.map((student, index) => (
                             <StudentRow student={student} index={index} setLoading={setLoading} setError={setError} />
                         ))}
                     </tbody>
                 </table>
                 <div className="flex-row">
-                    
+
                 </div>
 
             </div>
